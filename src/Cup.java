@@ -4,6 +4,9 @@ public class Cup {
     private String name;
     private int volumeInml;
 
+    public Cup() {
+    }
+
     public Cup(String name, int volumeInml) {
         this.name = name;
         this.volumeInml = volumeInml;
@@ -17,7 +20,7 @@ public class Cup {
         this.name = name;
     }
 
-    public int getVolumeInml() {
+    public int getVolumeInml(int i) {
         return volumeInml;
     }
 
