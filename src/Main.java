@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
         Cup cup1 = new Cup("Pierwszy Kubek", 500);
@@ -9,18 +10,31 @@ public class Main {
         Cup cup5 = new Cup("Trzeci Kubek", 450);
         Cup cup6 = new Cup("Czwarty Kubek", 450);
 
-        Cup[] oldArray = {cup1, cup2, cup3, cup1, null, cup2};
+        Cup[] oldArray = {cup1, cup3, cup3, cup1, cup2, null};
 
-        Cup[] cups = new Cup[3];
-//                {cup1, null, null, null, null, null, null};
-       do{
-           insertIntoArray(loadNew(), cups);
-       }
-       while(!isFull(cups));
+        Cup[] cups = /*new Cup[3];*/
+                {cup1, null, null};
 
-
+        while (!isFull(cups)) {
+            insertIntoArray(loadNew(), cups);
+        }
+        System.out.println(Arrays.toString(cups));
     }
-//  zwraca true, jezeli ten obiekt juz istnieje w tabeli
+
+    static int findFirstFreeIndex(Cup[] cups) {
+        int freeIndex = 0;
+        for (int i = 0; i < cups.length; i++) {
+            if (cups[i] == null) {
+                freeIndex = i;
+                break;
+            }
+            freeIndex++;
+        }
+        return freeIndex;
+    }
+
+
+    //  zwraca true, jezeli ten obiekt juz istnieje w tabeli
     static boolean checkIfExistInThisArray(Cup c, Cup[] cups) {
         for (Cup cup : cups) {
             if (c.equals(cup)) {
@@ -37,45 +51,26 @@ public class Main {
         System.out.println("Nazwa");
         cup.setName(scanner.nextLine());
         System.out.println("Pojemnosc w ml");
-        cup.getVolumeInml(scanner.nextInt());
-        scanner.nextLine();
+        cup.setVolumeInml(scanner.nextInt());
         return cup;
     }
 
-    static void theApp(Cup c, Cup[] cups) {
-        while (isFull(cups)){
-            insertIntoArray(c, cups);
+    //    wkłada do tablicy
+    static void insertIntoArray(Cup c, Cup[] cups) {
+        if (!checkIfExistInThisArray(c, cups)) {
+            cups[findFirstFreeIndex(cups)] = c;
         }
     }
 
-//    wkłada do tablicy
-    static void insertIntoArray(Cup c, Cup[] cups){
-        for (int i = 0; i < cups.length; i++) {
-            if (!checkIfExistInThisArray(c, cups)) {
-                cups[i] =c;
-            }
-        }
-    }
-
-//jezeli tablica jest pelna, zwraca true
-    static boolean isFull(Cup[] c){
+    //jezeli tablica jest pelna, zwraca true
+    static boolean isFull(Cup[] c) {
         for (int i = 0; i < c.length; i++) {
-            if ((c[i]==(null))) {
+            if ((c[i] == (null))) {
                 return false;
             }
         }
         return true;
     }
 
-
-//    static void compareCups(Cup c, Cup[] cups) {
-//        for (int i = 0; i < cups.length; i++) {
-//            if (checkIfExist(c, cups)) {
-//                cups[i] = c;
-//            }
-//            else
-//                cups[i] = null;
-//        }
-//    }
 }
 
